@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="allenTest")
-public class autonomous1 extends LinearOpMode {
+public class autonomousTester extends LinearOpMode {
     private DcMotor rightBack, rightFront, leftBack, leftFront;
     @Override
     public void runOpMode(){
