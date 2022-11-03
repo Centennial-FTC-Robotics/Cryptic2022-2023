@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package Cryptic.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -9,7 +9,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class Robot {
+import Cryptic.Superclasses.Subsystem;
+
+public class Drivetrain implements Subsystem {
     public DcMotor leftFront;
     public DcMotor rightFront;
     public DcMotor leftBack;
@@ -25,6 +27,9 @@ public class Robot {
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
 
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+    }
 }

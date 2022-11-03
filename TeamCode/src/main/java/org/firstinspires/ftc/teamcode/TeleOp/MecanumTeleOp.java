@@ -1,18 +1,23 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import Cryptic.OurRobot;
+import Cryptic.Subsystems.Drivetrain;
 
 @TeleOp(name="First OpMode")
 public class MecanumTeleOp extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException{
+    public void runOpMode() throws InterruptedException {
+        OurRobot robot = new OurRobot();
+        robot.initialize(this);
+
+        waitForStart();
+
+        if (isStopRequested()) return;
+
         while(opModeIsActive()){
-            Robot robot = new Robot();
-            robot.initialize(this);
-            waitForStart();
             double y = -gamepad1.left_stick_y;
             double x = gamepad1.left_stick_x * 1.1;
             double rx = gamepad1.right_stick_x;
@@ -21,10 +26,10 @@ public class MecanumTeleOp extends LinearOpMode {
             double leftBackPower = (y - x + rx) / denominator;
             double rightFrontPower = (y - x - rx) / denominator;
             double rightBackPower = (y + x - rx) / denominator;
-            robot.rightFront.setPower(rightFrontPower);
-            robot.rightBack.setPower(rightBackPower);
-            robot.leftBack.setPower(leftBackPower);
-            robot.leftFront.setPower(leftFrontPower);
+            robot.dt.rightFront.setPower(rightFrontPower);
+            robot.dt.rightBack.setPower(rightBackPower);
+            robot.dt.leftBack.setPower(leftBackPower);
+            robot.dt.leftFront.setPower(leftFrontPower);
         }
     }
 }

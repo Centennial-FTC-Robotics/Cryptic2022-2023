@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -6,29 +6,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import Cryptic.OurRobot;
+
 @TeleOp(name="Field Centric TeleOp")
 public class FieldCentricMecanumTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        // Declare our motors
-        // Make sure your ID's match your configuration
-        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("leftFront");
-        DcMotor motorBackLeft = hardwareMap.dcMotor.get("leftBack");
-        DcMotor motorFrontRight = hardwareMap.dcMotor.get("rightFront");
-        DcMotor motorBackRight = hardwareMap.dcMotor.get("rightBack");
-
-        // Reverse the right side motors
-        // Reverse left motors if you are using NeveRests
-        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        // Retrieve the IMU from the hardware map
-        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        // Technically this is the default, however specifying it is clearer
-        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-        // Without this, data retrieving from the IMU throws an exception
-        imu.initialize(parameters);
+        OurRobot robot = new OurRobot();
+        robot.initialize(this);
 
         waitForStart();
 
@@ -40,7 +25,7 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             double rx = -gamepad1.right_stick_x;
 
             // Read inverse IMU heading, as the IMU heading is CW positive
-            double botHeading = imu.getAngularOrientation().firstAngle;
+            double botHeading = robot.imu.imu.getAngularOrientation().firstAngle;
 
             double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
             double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
@@ -54,10 +39,10 @@ public class FieldCentricMecanumTeleOp extends LinearOpMode {
             double frontRightPower = (rotY - rotX - rx) / denominator;
             double backRightPower = (rotY + rotX - rx) / denominator;
 
-            motorFrontLeft.setPower(frontLeftPower);
-            motorBackLeft.setPower(backLeftPower);
-            motorFrontRight.setPower(frontRightPower);
-            motorBackRight.setPower(backRightPower);
+            robot.dt.leftFront.setPower(frontLeftPower);
+            robot.dt.leftBack.setPower(backLeftPower);
+            robot.dt.rightFront.setPower(frontRightPower);
+            robot.dt.rightBack.setPower(backRightPower);
         }
     }
 }
