@@ -123,7 +123,7 @@ public class autonomous1 extends LinearOpMode {
     private void objectDetection () {
         if (opModeIsActive()) {
             int count = 0;
-            while (opModeIsActive() && count <= 10) {
+            while (opModeIsActive()) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -144,6 +144,7 @@ public class autonomous1 extends LinearOpMode {
                             telemetry.addData("- Position (Row/Col)", "%.0f / %.0f", row, col);
                             telemetry.addData("- Size (Width/Height)", "%.0f / %.0f", width, height);
                         }
+                        telemetry.addData("Count", count);
                         count++;
                         telemetry.update();
                     }
