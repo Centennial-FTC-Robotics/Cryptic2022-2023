@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import Cryptic.OurRobot;
 import Cryptic.Subsystems.Drivetrain;
 
@@ -16,10 +18,12 @@ public class MecanumTeleOp extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
-
+        int counter = 0;
+        double slideValue = 0;
         while(opModeIsActive()){
+
             double y = -gamepad1.left_stick_y;
-            double x = -gamepad1.left_stick_x * 1.1;
+            double x = gamepad1.left_stick_x * 1.1;
             double rx = gamepad1.right_stick_x;
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double leftFrontPower = (y + x + rx) / denominator;
@@ -30,6 +34,21 @@ public class MecanumTeleOp extends LinearOpMode {
             robot.dt.rightBack.setPower(rightBackPower);
             robot.dt.leftBack.setPower(leftBackPower);
             robot.dt.leftFront.setPower(leftFrontPower);
+            telemetry.addData("Servo Position", robot.outtake.outtakeServo.getPosition());
+            telemetry.update();
+            if (gamepad2.b) {
+                    robot.outtake.outtakeServo.setPosition(0.7);
+            } else {
+                robot.outtake.outtakeServo.setPosition(0.3);
+            }
+            if(gamepad2.dpad_up)
+                slideValue = 0.5;
+            else if(gamepad2.dpad_down)
+                slideValue = -0.5;
+            else{
+                slideValue = 0;
+            }
+            robot.outtake.outtakeMotor.setPower(slideValue);
         }
     }
 }
