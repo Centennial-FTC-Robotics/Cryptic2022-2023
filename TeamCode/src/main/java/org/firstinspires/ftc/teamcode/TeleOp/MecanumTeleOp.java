@@ -42,7 +42,7 @@ public class MecanumTeleOp extends LinearOpMode {
                     robot.intake.rightPivotServo.setPosition(0.7);
                     robot.intake.clawServo.setPosition(1);
                 } else {
-                    robot.intake.leftPivotServo.setPosition(0);
+                    OurRobot.intake.leftPivotServo.setPosition(0);
                     robot.intake.rightPivotServo.setPosition(0);
                     robot.intake.clawServo.setPosition(0);
                 }
