@@ -2,22 +2,27 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import Cryptic.OurRobot;
 import Cryptic.Subsystems.Drivetrain;
 
 @TeleOp(name="First OpMode")
 public class MecanumTeleOp extends LinearOpMode {
+
+
     @Override
     public void runOpMode() throws InterruptedException {
         OurRobot robot = new OurRobot();
         robot.initialize(this);
 
         waitForStart();
-
+        boolean intake = true;
         if (isStopRequested()) return;
 
         while(opModeIsActive()){
+
+
             double y = -gamepad1.left_stick_y;
             double x = -gamepad1.left_stick_x * 1.1;
             double rx = gamepad1.right_stick_x;
@@ -29,7 +34,22 @@ public class MecanumTeleOp extends LinearOpMode {
             robot.dt.rightFront.setPower(rightFrontPower);
             robot.dt.rightBack.setPower(rightBackPower);
             robot.dt.leftBack.setPower(leftBackPower);
-            robot.dt.leftFront.setPower(leftFrontPower);
+            OurRobot.dt.leftFront.setPower(leftFrontPower);
+            robot.intake.leftPivotServo.setPosition(0);
+            if(gamepad2.a){ //intake
+                if(intake){
+                    robot.intake.leftPivotServo.setPosition(0.7);
+                    robot.intake.rightPivotServo.setPosition(0.7);
+                    robot.intake.clawServo.setPosition(1);
+                } else {
+                    robot.intake.leftPivotServo.setPosition(0);
+                    robot.intake.rightPivotServo.setPosition(0);
+                    robot.intake.clawServo.setPosition(0);
+                }
+                if(!gamepad2.a)
+                    intake = !intake;
+
+            }
         }
     }
 }

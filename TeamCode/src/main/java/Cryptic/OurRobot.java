@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import Cryptic.Subsystems.Drivetrain;
 import Cryptic.Subsystems.IMU;
 import Cryptic.Subsystems.Vision;
+import Cryptic.Subsystems.Intake;
 import Cryptic.Superclasses.Subsystem;
 
 public class OurRobot {
@@ -12,11 +13,13 @@ public class OurRobot {
     public static Drivetrain dt = new Drivetrain();
     public static Vision vision = new Vision();
     public static IMU imu = new IMU();
+    public static Intake intake = new Intake();
 
     private static final Subsystem[] Subsystems = {
             dt,
             vision,
-            imu
+            imu,
+            intake
     };
 
     public static void initialize(LinearOpMode opMode) {
