@@ -21,7 +21,7 @@ public class OurRobot {
             dt,
             vision,
             imu,
-            intake
+            intake,
             outtake,
     };
 

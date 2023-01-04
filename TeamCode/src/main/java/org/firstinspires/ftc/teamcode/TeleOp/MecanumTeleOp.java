@@ -53,6 +53,7 @@ public class MecanumTeleOp extends LinearOpMode {
             robot.outtake.outtakeMotor.setPower(slideValue);
             OurRobot.dt.leftFront.setPower(leftFrontPower);
             robot.intake.leftPivotServo.setPosition(0);
+
             if(gamepad2.a){ //intake
                 if(intake){
                     robot.intake.leftPivotServo.setPosition(0.7);
@@ -65,6 +66,8 @@ public class MecanumTeleOp extends LinearOpMode {
                 }
                 if(!gamepad2.a)
                     intake = !intake;
+                telemetry.addData(intake.toString(), 3);
+                telemetry.update();
 
             }
         }

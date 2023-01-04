@@ -16,9 +16,9 @@ public class Intake  implements Subsystem{
     public Servo leftPivotServo;
     public Servo clawServo;
     public void initialize(LinearOpMode opMode){
-        rightPivotServo = opMode.hardwareMap.get(Servo.class, "rightPivotServo");
-        leftPivotServo = opMode.hardwareMap.get(Servo.class, "leftPivotServo");
-        clawServo = opMode.hardwareMap.get(Servo.class, "clawServo");
+        rightPivotServo = opMode.hardwareMap.get(Servo.class, "right");
+        leftPivotServo = opMode.hardwareMap.get(Servo.class, "left");
+        clawServo = opMode.hardwareMap.get(Servo.class, "claw");
 
     }
 
