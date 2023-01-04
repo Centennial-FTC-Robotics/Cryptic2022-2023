@@ -8,21 +8,28 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import Cryptic.OurRobot;
 
-@TeleOp(name="Field Centric TeleOp")
+@TeleOp(name="Field Centric First OpMode")
 public class FieldCentricMecanumTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         OurRobot robot = new OurRobot();
         robot.initialize(this);
 
+        robot.dt.leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.dt.rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.dt.leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.dt.rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         waitForStart();
+
+        if (isStopRequested()) return;
 
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = -gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = -gamepad1.right_stick_x;
+            double rx = gamepad1.right_stick_x;
 
             // Read inverse IMU heading, as the IMU heading is CW positive
             double botHeading = robot.imu.imu.getAngularOrientation().firstAngle;
