@@ -18,6 +18,6 @@ public class Outtake implements Subsystem {
         outtakeServo = opMode.hardwareMap.get(Servo.class, "outtakeServo");
         outtakeMotor = opMode.hardwareMap.get(DcMotor.class, "outtakeMotor");
         outtakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        outtakeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }
