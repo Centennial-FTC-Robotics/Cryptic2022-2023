@@ -9,8 +9,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import Cryptic.OurRobot;
 import Cryptic.Subsystems.Drivetrain;
 
-@TeleOp(name="First OpMode")
-public class MecanumTeleOp extends LinearOpMode {
+@TeleOp(name="CrypticTeleOP")
+public class CrypticTeleOP extends LinearOpMode {
 
 
     @Override

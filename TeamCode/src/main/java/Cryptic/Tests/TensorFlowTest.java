@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package Cryptic.Tests;
 
 import java.util.*;
 import com.qualcomm.robotcore.*;
@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import Cryptic.OurRobot;
 
 @TeleOp(name="allenTest")
-public class autonomous1 extends LinearOpMode {
+public class TensorFlowTest extends LinearOpMode {
     OurRobot robot = new OurRobot();
 
     private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";

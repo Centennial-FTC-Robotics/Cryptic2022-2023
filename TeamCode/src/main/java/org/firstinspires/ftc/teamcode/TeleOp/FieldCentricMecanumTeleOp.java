@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import Cryptic.OurRobot;
 
-@TeleOp(name="Field Centric First OpMode")
+@TeleOp(name="Field Centric Mecanum TeleOp")
 public class FieldCentricMecanumTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
