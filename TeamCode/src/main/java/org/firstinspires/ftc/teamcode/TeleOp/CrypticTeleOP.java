@@ -37,7 +37,26 @@ public class CrypticTeleOP extends LinearOpMode {
         boolean timerReached = true;
         double initalSlidePos = robot.outtake.outtakeMotor.getCurrentPosition();
         ElapsedTime mytimer = new ElapsedTime();
+        ElapsedTime intakeSequence = new ElapsedTime();
         while(opModeIsActive()){
+            
+            if (gamepad2.left_bumper) {
+                intakeSequence.reset();
+                intakeLeft = 0.05;
+                intakeRight = 0.95;
+                claw = 0.55;
+            }
+            if (intakeSequence.time() > 0.2 && intakeSequence.time() < 0.4) {
+                horiSlide = 0.4;
+            } else if (intakeSequence.time() > 0.7 && intakeSequence.time() < 1.2) {
+                claw = 0.77;
+            } else if (intakeSequence.time() > 1.1 && intakeSequence.time() < 1.3) {
+                intakeLeft = 0.95;
+                intakeRight = 0.05;
+                horiSlide = 0.05;
+            } else if (intakeSequence.time() > 2.3 && intakeSequence.time() < 2.5) {
+                claw = 0.55;
+            }
 
             if(gamepad1.right_bumper){
                 factor = 0.3;
