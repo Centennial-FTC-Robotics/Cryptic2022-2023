@@ -17,6 +17,7 @@ public class OpenCVTest extends LinearOpMode{
 
         while (opModeIsActive()) {
             telemetry.addData("OpenCV Reading", Vision.Pipeline.getAnalysis());
+            telemetry.update();
         }
     }
 }

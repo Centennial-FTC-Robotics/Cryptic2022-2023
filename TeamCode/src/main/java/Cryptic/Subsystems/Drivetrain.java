@@ -31,4 +31,12 @@ public class Drivetrain implements Subsystem {
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
     }
+    public enum moveType {
+        DRIVE,
+        STRAFE,
+        TURN
+    }
+    public void move(moveType MoveType, double moveVal) {
+
+    }
 }

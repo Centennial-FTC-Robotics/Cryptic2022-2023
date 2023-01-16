@@ -2,6 +2,7 @@ package Cryptic.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -13,25 +14,28 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 import Cryptic.Superclasses.Subsystem;
 
 public class Vision implements Subsystem {
-    OpenCvInternalCamera phoneCam;
+    OpenCvWebcam webcam;
     Pipeline pipeline;
     @Override
     public void initialize (LinearOpMode opMode){
+
         int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        //webcam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);
         pipeline = new Pipeline();
-        phoneCam.setPipeline(pipeline);
-        phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
-        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        webcam.setPipeline(pipeline);
+        webcam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
             public void onOpened()
             {
-                phoneCam.startStreaming(320, 176, OpenCvCameraRotation.SIDEWAYS_LEFT);
+                webcam.startStreaming(320, 176, OpenCvCameraRotation.UPRIGHT);
             }
             @Override
             public void onError(int errorCode)
@@ -43,6 +47,12 @@ public class Vision implements Subsystem {
             }
         });
     }
+    public enum pLocation {
+        LOCATION1,
+        LOCATION2,
+        LOCATION3
+    }
+
     public static class Pipeline extends OpenCvPipeline {
         final Scalar RED = new Scalar(255, 0, 0);
         final Scalar BLUE = new Scalar(0, 0, 255);

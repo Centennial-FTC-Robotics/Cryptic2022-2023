@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import Cryptic.OurRobot;
 import Cryptic.Superclasses.Subsystem;
 
 public class Intake  implements Subsystem{
@@ -23,5 +24,17 @@ public class Intake  implements Subsystem{
         horiServo = opMode.hardwareMap.get(Servo.class,"hori");
 
     }
-
+    public void extendIntake() {
+        horiServo.setPosition(0.45);
+        leftPivotServo.setPosition(0.05);
+        rightPivotServo.setPosition(0.95);
+        clawServo.setPosition(0.55);
+    }
+    public void retractIntake() {
+        clawServo.setPosition(0.77);
+        horiServo.setPosition(0.05);
+        leftPivotServo.setPosition(0.95);
+        rightPivotServo.setPosition(0.05);
+        clawServo.setPosition(0.55);
+    }
 }
