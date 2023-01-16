@@ -35,28 +35,64 @@ public class CrypticTeleOP extends LinearOpMode {
         double horiSlide = 0.05;
         double factor;
         boolean timerReached = true;
+        boolean setUp = true;
         double initalSlidePos = robot.outtake.outtakeMotor.getCurrentPosition();
         ElapsedTime mytimer = new ElapsedTime();
+        ElapsedTime intakeSequence2 = new ElapsedTime();
         ElapsedTime intakeSequence = new ElapsedTime();
+        boolean activateSequence2 = false;
         while(opModeIsActive()){
-            
+
+            telemetry.addData("timer value", intakeSequence2.time());
+            telemetry.addData("timer value", intakeSequence2.time());
             if (gamepad2.left_bumper) {
-                intakeSequence.reset();
-                intakeLeft = 0.05;
-                intakeRight = 0.95;
-                claw = 0.55;
+                intakeSequence2.reset();
+                activateSequence2 = true;
+                if (setUp) {
+                    intakeLeft = 0.05;
+                    intakeRight = 0.95;
+                    claw = 0.65;
+                    horiSlide = 0.22;
+                } else {
+                    claw = 0.77;
+                }
             }
-            if (intakeSequence.time() > 0.2 && intakeSequence.time() < 0.4) {
-                horiSlide = 0.4;
-            } else if (intakeSequence.time() > 0.7 && intakeSequence.time() < 1.2) {
-                claw = 0.77;
-            } else if (intakeSequence.time() > 1.1 && intakeSequence.time() < 1.3) {
+            if (intakeSequence2.time() > 0.2 && intakeSequence2.time() < 0.4 && setUp && activateSequence2)  {
+                horiSlide = 0.22;
+                setUp = false;
+                activateSequence2 = false;
+            } else if(intakeSequence2.time() > 0.1 && intakeSequence2.time() < 0.2 && activateSequence2 && !setUp) {
                 intakeLeft = 0.95;
                 intakeRight = 0.05;
                 horiSlide = 0.05;
-            } else if (intakeSequence.time() > 2.3 && intakeSequence.time() < 2.5) {
+            } else if (intakeSequence2.time() > 1.2 && intakeSequence2.time() < 1.3 && activateSequence2 && !setUp) {
                 claw = 0.55;
+            } else if (intakeSequence2.time() > 1.4 && intakeSequence2.time() < 1.6 && activateSequence2) {
+                intakeLeft = 0.05;
+                intakeRight = 0.95;
+                claw = 0.65;
+            } else if (intakeSequence2.time() > 1.6 && intakeSequence2.time() < 1.8 && activateSequence2) {
+                horiSlide = 0.22;
+                activateSequence2 = false;
             }
+
+//            if (gamepad2.left_bumper) {
+//                intakeSequence.reset();
+//                intakeLeft = 0.05;
+//                intakeRight = 0.95;
+//                claw = 0.55;
+//            }
+//            if (intakeSequence.time() > 0.2 && intakeSequence.time() < 0.4 && activateSequence2) {
+//                horiSlide = 0.4;
+//            } else if (intakeSequence.time() > 0.8 && intakeSequence.time() < 1 && activateSequence2) {
+//                claw = 0.77;
+//            } else if (intakeSequence.time() > 1.2 && intakeSequence.time() < 1.4 && activateSequence2) {
+//                intakeLeft = 0.95;
+//                intakeRight = 0.05;
+//                horiSlide = 0.05;
+//            } else if (intakeSequence.time() > 2.3 && intakeSequence.time() < 2.5 && activateSequence2) {
+//                claw = 0.55;
+//            }
 
             if(gamepad1.right_bumper){
                 factor = 0.3;
@@ -146,6 +182,7 @@ public class CrypticTeleOP extends LinearOpMode {
             }
 
             if(gamepad2.left_stick_y > 0.1 && horiSlide > 0 ) {
+                setUp = true;
                 horiSlide = horiSlide - gamepad2.left_stick_y * 0.002;
             }
 
@@ -162,7 +199,6 @@ public class CrypticTeleOP extends LinearOpMode {
             }
 
             telemetry.addData("horislide value", robot.intake.horiServo.getPosition());
-            telemetry.addData("timer value", mytimer.time());
 
             robot.intake.horiServo.setPosition(horiSlide);
 

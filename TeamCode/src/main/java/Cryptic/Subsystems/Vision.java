@@ -22,7 +22,8 @@ public class Vision implements Subsystem {
     @Override
     public void initialize (LinearOpMode opMode){
         int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.FRONT);
         pipeline = new Pipeline();
         phoneCam.setPipeline(pipeline);
         phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
@@ -31,12 +32,12 @@ public class Vision implements Subsystem {
             @Override
             public void onOpened()
             {
-                phoneCam.startStreaming(320, 176, OpenCvCameraRotation.SIDEWAYS_LEFT);
+                phoneCam.startStreaming(320, 176, OpenCvCameraRotation.UPRIGHT);
             }
             @Override
             public void onError(int errorCode)
             {
-                opMode.telemetry.speak("OpenCVCamera Error");
+                //opMode.telemetry.speak("OpenCVCamera Error");
                 /*
                  * This will be called if the camera could not be opened
                  */
