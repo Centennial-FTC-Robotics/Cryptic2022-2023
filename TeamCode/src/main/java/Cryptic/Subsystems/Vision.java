@@ -15,20 +15,34 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
+import org.openftc.apriltag.AprilTagDetection;
+
+import java.util.ArrayList;
 
 import Cryptic.Superclasses.Subsystem;
 
 public class Vision implements Subsystem {
     OpenCvWebcam webcam;
-    Pipeline pipeline;
+    AprilTagDetectionPipeline aprilTagDetectionPipeline;
+
+    //for calibration
+    double fx = 578.272;
+    double fy = 578.272;
+    double cx = 402.145;
+    double cy = 221.506;
+
+    double tagsize = 0.166;
+
     @Override
     public void initialize (LinearOpMode opMode){
 
         int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
-        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         //webcam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);
-        pipeline = new Pipeline();
-        webcam.setPipeline(pipeline);
+        //pipeline = new Pipeline();
+        //webcam.setPipeline(pipeline);
+        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+        webcam.setPipeline(aprilTagDetectionPipeline);
         webcam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -53,6 +67,74 @@ public class Vision implements Subsystem {
         LOCATION3
     }
 
+    //Detect with AprilTags to flex on judges
+    public void detect(LinearOpMode opMode){
+
+        final double FEET_PER_METER = 3.28084;
+
+        int numFramesWithoutDetection = 0;
+
+        final float DECIMATION_HIGH = 3;
+        final float DECIMATION_LOW = 2;
+        final float THRESHOLD_HIGH_DECIMATION_RANGE_METERS = 1.0f;
+        final int THRESHOLD_NUM_FRAMES_NO_DETECTION_BEFORE_LOW_DECIMATION = 4;
+
+        // Calling getDetectionsUpdate() will only return an object if there was a new frame
+        // processed since the last time we called it. Otherwise, it will return null. This
+        // enables us to only run logic when there has been a new frame, as opposed to the
+        // getLatestDetections() method which will always return an object.
+        ArrayList<AprilTagDetection> detections = aprilTagDetectionPipeline.getDetectionsUpdate();
+
+        // If there's been a new frame...
+        if(detections != null)
+        {
+            opMode.telemetry.addData("FPS", webcam.getFps());
+            opMode.telemetry.addData("Overhead ms", webcam.getOverheadTimeMs());
+            opMode.telemetry.addData("Pipeline ms", webcam.getPipelineTimeMs());
+
+            // If we don't see any tags
+            if(detections.size() == 0)
+            {
+                numFramesWithoutDetection++;
+
+                // If we haven't seen a tag for a few frames, lower the decimation
+                // so we can hopefully pick one up if we're e.g. far back
+                if(numFramesWithoutDetection >= THRESHOLD_NUM_FRAMES_NO_DETECTION_BEFORE_LOW_DECIMATION)
+                {
+                    aprilTagDetectionPipeline.setDecimation(DECIMATION_LOW);
+                }
+            }
+            // We do see tags!
+            else
+            {
+                numFramesWithoutDetection = 0;
+
+                // If the target is within 1 meter, turn on high decimation to
+                // increase the frame rate
+                if(detections.get(0).pose.z < THRESHOLD_HIGH_DECIMATION_RANGE_METERS)
+                {
+                    aprilTagDetectionPipeline.setDecimation(DECIMATION_HIGH);
+                }
+
+                for(AprilTagDetection detection : detections)
+                {
+                    opMode.telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+                    opMode.telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
+                    opMode.telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
+                    opMode.telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
+                    opMode.telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
+                    opMode.telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
+                    opMode.telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
+                }
+            }
+
+            opMode.telemetry.update();
+        }
+
+        opMode.sleep(20);
+    }
+/*
+old stuff with signal sleeve with solid colors on it
     public static class Pipeline extends OpenCvPipeline {
         final Scalar RED = new Scalar(255, 0, 0);
         final Scalar BLUE = new Scalar(0, 0, 255);
@@ -96,8 +178,16 @@ public class Vision implements Subsystem {
             return input;
         }
 
-        public static int getAnalysis() {
-            return avg1;
+        public static String getAnalysis() {
+            //best colors: Blue, Green, Yellow
+            if (avg1 > 120 && avg1 < 200) {
+                return "BLUE" + " " + avg1;
+            } else if (avg1 < 85 && avg1 < 120) {
+                return "YELLOW" + " " + avg1;
+            } else {
+                return "RED" + " " + avg1;
+            }
         }
     }
+    */
 }

@@ -13,13 +13,10 @@ public class OpenCVTest extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
         robot.initialize(this);
 
-        Vision.Pipeline.getAnalysis();
-
         waitForStart();
 
         while (opModeIsActive()) {
-            telemetry.addData("OpenCV Reading", Vision.Pipeline.getAnalysis());
-            telemetry.update();
+            robot.vision.detect(this);
         }
     }
 }
