@@ -20,26 +20,26 @@ public class BlueAllianceBlueTerminal extends LinearOpMode {
 
         waitForStart();
 
-        Vision.pLocation parkLocation = Vision.Pipeline.getAnalysis();
+        //Vision.pLocation parkLocation = Vision.Pipeline.getAnalysis();
 
         robot.dt.move(Drivetrain.moveType.DRIVE, tileLength * 3);
         robot.dt.move(Drivetrain.moveType.TURN, 105);
         for (int i = 0; i < 3; i++) {
-            cycle();
+            //cycle();
         }
         robot.intake.leftPivotServo.setPosition(0.05);
         robot.intake.rightPivotServo.setPosition(0.95);
-        robot.outtake.score(this);
+        //robot.outtake.score(this);
         robot.dt.move(Drivetrain.moveType.TURN, -15);
         robot.dt.move(Drivetrain.moveType.STRAFE, 2);
-        if (parkLocation == Vision.pLocation.LOCATION1) robot.dt.move(Drivetrain.moveType.DRIVE, -tileLength);
-        else if (parkLocation == Vision.pLocation.LOCATION2);
-        else if (parkLocation == Vision.pLocation.LOCATION3) robot.dt.move(Drivetrain.moveType.DRIVE, tileLength);
+        //if (parkLocation == Vision.pLocation.LOCATION1) robot.dt.move(Drivetrain.moveType.DRIVE, -tileLength);
+        //else if (parkLocation == Vision.pLocation.LOCATION2);
+        //else if (parkLocation == Vision.pLocation.LOCATION3) robot.dt.move(Drivetrain.moveType.DRIVE, tileLength);
     }
 
     public void cycle() {
-        OurRobot.intake.extendIntake();
-        OurRobot.outtake.score(this);
-        OurRobot.intake.retractIntake();
+        //OurRobot.intake.extendIntake();
+        //OurRobot.outtake.score(this);
+        //OurRobot.intake.retractIntake();
     }
 }

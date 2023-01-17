@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import Cryptic.OurRobot;
@@ -24,17 +26,23 @@ public class Intake  implements Subsystem{
         horiServo = opMode.hardwareMap.get(Servo.class,"hori");
 
     }
+    public enum intakeDo {
+        EXTEND,
+        RETRACT
+    }
     public void extendIntake() {
-        horiServo.setPosition(0.45);
-        leftPivotServo.setPosition(0.05);
-        rightPivotServo.setPosition(0.95);
-        clawServo.setPosition(0.55);
+        //if (timey.time() < 4.0) {
+            horiServo.setPosition(0.3);
+            leftPivotServo.setPosition(0.10);
+            rightPivotServo.setPosition(0.90);
+            clawServo.setPosition(0.55);
+        //}
     }
     public void retractIntake() {
         clawServo.setPosition(0.77);
         horiServo.setPosition(0.05);
         leftPivotServo.setPosition(0.95);
         rightPivotServo.setPosition(0.05);
-        clawServo.setPosition(0.55);
+        //clawServo.setPosition(0.55);
     }
 }

@@ -24,18 +24,18 @@ public class Outtake implements Subsystem {
         outtakeMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         outtakeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-    public void score(LinearOpMode opMode) {
-        ElapsedTime timeScore = new ElapsedTime();
-        outtakeMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        outtakeMotor.setTargetPosition(2300);
-        outtakeMotor.setPower(0.5);
-        while (timeScore.time() < 0.5){}
-        outtakeServo.setPosition(1);
-        opMode.sleep(500);
-        outtakeServo.setPosition(0.1);
-        opMode.sleep(200);
-        outtakeMotor.setTargetPosition(0);
-        outtakeMotor.setPower(-0.5);
-        opMode.sleep(1500);
+    public void score(ElapsedTime timey,LinearOpMode opMode) {
+        if (0.0 < timey.time() && timey.time() < 1.7) {
+            outtakeMotor.setTargetPosition(2300);
+            outtakeMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            outtakeMotor.setPower(0.5);
+        } else if (1.7 < timey.time() && timey.time() < 2.7) {
+            outtakeServo.setPosition(1);
+        } else if (2.7 < timey.time() && timey.time() < 3.2) {
+            outtakeServo.setPosition(0.0);
+        } else if (2.9 < timey.time() && timey.time() < 4.6) {
+            outtakeMotor.setTargetPosition(0);
+            outtakeMotor.setPower(-0.5);
+        }
     }
 }
