@@ -16,7 +16,9 @@ public class OpenCVTest extends LinearOpMode{
         waitForStart();
 
         while (opModeIsActive()) {
-            robot.vision.detect(this);
+
+            telemetry.addLine(Vision.Pipeline.getAnalysis());
+            telemetry.update();
         }
     }
 }

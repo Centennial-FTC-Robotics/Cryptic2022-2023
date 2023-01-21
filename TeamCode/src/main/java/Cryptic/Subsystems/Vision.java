@@ -23,7 +23,7 @@ import Cryptic.Superclasses.Subsystem;
 
 public class Vision implements Subsystem {
     OpenCvWebcam webcam;
-    AprilTagDetectionPipeline aprilTagDetectionPipeline;
+    Pipeline pipeline;
 
     //for calibration
     double fx = 578.272;
@@ -39,10 +39,10 @@ public class Vision implements Subsystem {
         int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         //webcam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);
-        //pipeline = new Pipeline();
-        //webcam.setPipeline(pipeline);
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
-        webcam.setPipeline(aprilTagDetectionPipeline);
+        pipeline = new Pipeline();
+        webcam.setPipeline(pipeline);
+        //aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+        //webcam.setPipeline(aprilTagDetectionPipeline);
         webcam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -54,7 +54,7 @@ public class Vision implements Subsystem {
             @Override
             public void onError(int errorCode)
             {
-                opMode.telemetry.speak("OpenCVCamera Error");
+                //opMode.telemetry.speak("OpenCVCamera Error");
                 /*
                  * This will be called if the camera could not be opened
                  */
@@ -66,7 +66,7 @@ public class Vision implements Subsystem {
         LOCATION2,
         LOCATION3
     }
-
+/*
     //Detect with AprilTags to flex on judges
     public void detect(LinearOpMode opMode){
 
@@ -133,8 +133,8 @@ public class Vision implements Subsystem {
 
         opMode.sleep(20);
     }
-/*
-old stuff with signal sleeve with solid colors on it
+*/
+//old stuff with signal sleeve with solid colors on it
     public static class Pipeline extends OpenCvPipeline {
         final Scalar RED = new Scalar(255, 0, 0);
         final Scalar BLUE = new Scalar(0, 0, 255);
@@ -180,14 +180,13 @@ old stuff with signal sleeve with solid colors on it
 
         public static String getAnalysis() {
             //best colors: Blue, Green, Yellow
-            if (avg1 > 120 && avg1 < 200) {
+            if (avg1 > 130 && avg1 < 200) {
                 return "BLUE" + " " + avg1;
-            } else if (avg1 < 85 && avg1 < 120) {
-                return "YELLOW" + " " + avg1;
+            } else if (avg1 > 100 && avg1 < 130) {
+                return "GREEN" + " " + avg1;
             } else {
-                return "RED" + " " + avg1;
+                return "YELLOW" + " " + avg1;
             }
         }
     }
-    */
 }

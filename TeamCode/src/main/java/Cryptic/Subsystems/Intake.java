@@ -18,7 +18,7 @@ public class Intake  implements Subsystem{
     public Servo rightPivotServo;
     public Servo leftPivotServo;
     public Servo clawServo;
-    public Servo horiServo;
+    public static Servo horiServo;
     public void initialize(LinearOpMode opMode){
         rightPivotServo = opMode.hardwareMap.get(Servo.class, "right");
         leftPivotServo = opMode.hardwareMap.get(Servo.class, "left");
@@ -30,17 +30,17 @@ public class Intake  implements Subsystem{
         EXTEND,
         RETRACT
     }
-    public void extendIntake() {
+    public void extendIntake(int increment) {
         //if (timey.time() < 4.0) {
-            horiServo.setPosition(0.3);
-            leftPivotServo.setPosition(0.10);
-            rightPivotServo.setPosition(0.90);
-            clawServo.setPosition(0.55);
+        horiServo.setPosition(0.55);
+        leftPivotServo.setPosition(0.40 - (increment * 0.07));
+        rightPivotServo.setPosition(0.60 + (increment * 0.07));
+        //clawServo.setPosition(0.55);
         //}
     }
     public void retractIntake() {
         clawServo.setPosition(0.77);
-        horiServo.setPosition(0.05);
+        //horiServo.setPosition(0.05);
         leftPivotServo.setPosition(0.95);
         rightPivotServo.setPosition(0.05);
         //clawServo.setPosition(0.55);

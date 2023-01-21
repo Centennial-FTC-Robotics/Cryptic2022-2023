@@ -29,7 +29,7 @@ public class CycleTest extends LinearOpMode {
                 OurRobot.outtake.score(timey, this);
             }
             if (timey.time() < 3.0) {
-                OurRobot.intake.extendIntake();
+                //OurRobot.intake.extendIntake();
             } else if (timey.time() < 3.5) {
                 OurRobot.intake.clawServo.setPosition(0.77);
             } else if (3.5 < timey.time() && timey.time() < 4.5) {
