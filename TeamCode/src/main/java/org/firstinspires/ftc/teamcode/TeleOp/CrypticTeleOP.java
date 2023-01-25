@@ -52,27 +52,31 @@ public class CrypticTeleOP extends LinearOpMode {
                     intakeLeft = 0.05;
                     intakeRight = 0.95;
                     claw = 0.65;
-                    horiSlide = 0.22;
+                    horiSlide = 0.21;
                 } else {
-                    claw = 0.77;
+                    horiSlide = 0.33;
+
                 }
             }
-            if (intakeSequence2.time() > 0.2 && intakeSequence2.time() < 0.4 && setUp && activateSequence2)  {
-                horiSlide = 0.22;
+            if (intakeSequence2.time() > 0.2 && intakeSequence2.time() < 0.4 && setUp && activateSequence2) {
+                horiSlide = 0.21;
                 setUp = false;
                 activateSequence2 = false;
-            } else if(intakeSequence2.time() > 0.1 && intakeSequence2.time() < 0.2 && activateSequence2 && !setUp) {
+            }else if(intakeSequence2.time() > 0.5 && intakeSequence2.time() < 0.6 && activateSequence2 && !setUp) {
+                claw = 0.77;
+            } else if(intakeSequence2.time() > 0.6 && intakeSequence2.time() < 0.7 && activateSequence2 && !setUp) {
                 intakeLeft = 0.95;
                 intakeRight = 0.05;
-                horiSlide = 0.05;
-            } else if (intakeSequence2.time() > 1.2 && intakeSequence2.time() < 1.3 && activateSequence2 && !setUp) {
+                horiSlide = 0.04;
+            } else if (intakeSequence2.time() > 1.75 && intakeSequence2.time() < 1.9 && activateSequence2 && !setUp) {
                 claw = 0.55;
-            } else if (intakeSequence2.time() > 1.4 && intakeSequence2.time() < 1.6 && activateSequence2) {
+            } else if (intakeSequence2.time() > 2.1 && intakeSequence2.time() < 2.3 && activateSequence2 && !setUp) {
                 intakeLeft = 0.05;
                 intakeRight = 0.95;
                 claw = 0.65;
-            } else if (intakeSequence2.time() > 1.6 && intakeSequence2.time() < 1.8 && activateSequence2) {
-                horiSlide = 0.22;
+
+            } else if (intakeSequence2.time() > 2.3 && intakeSequence2.time() < 2.5 && activateSequence2 && !setUp) {
+                horiSlide = 0.21;
                 activateSequence2 = false;
             }
 
@@ -98,11 +102,11 @@ public class CrypticTeleOP extends LinearOpMode {
                 factor = 0.3;
             }
             else{
-                factor = 1;
+                factor = 0.7;
             }
-            double y = -gamepad1.left_stick_y;
-            double x = gamepad1.left_stick_x * 1.1;
-            double rx = gamepad1.right_stick_x;
+            double y = gamepad1.left_stick_y;
+            double x = -gamepad1.left_stick_x * 1.1;
+            double rx = -gamepad1.right_stick_x;
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double leftFrontPower = (y + x + rx) / denominator;
             double leftBackPower = (y - x + rx) / denominator;

@@ -26,7 +26,7 @@ public class CycleTest extends LinearOpMode {
 
         while (timey.time() < 5) {
             if (timey.time() > 0.2) {
-                OurRobot.outtake.score(timey, this);
+        //        OurRobot.outtake.score(timey, this);
             }
             if (timey.time() < 3.0) {
                 //OurRobot.intake.extendIntake();

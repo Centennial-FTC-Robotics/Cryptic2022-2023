@@ -12,14 +12,14 @@ import Cryptic.Superclasses.Subsystem;
 public class OurRobot {
 
     public static Drivetrain dt = new Drivetrain();
-    //public static Vision vision = new Vision();
+    public static Vision vision = new Vision();
     public static IMU imu = new IMU();
     public static Intake intake = new Intake();
     public static Outtake outtake = new Outtake();
 
     private static final Subsystem[] Subsystems = {
             dt,
-            //vision,
+            vision,
             imu,
             intake,
             outtake,

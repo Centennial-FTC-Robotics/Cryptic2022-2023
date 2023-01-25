@@ -178,14 +178,17 @@ public class Vision implements Subsystem {
             return input;
         }
 
-        public static String getAnalysis() {
+        public static pLocation getAnalysis(LinearOpMode opMode) {
             //best colors: Blue, Green, Yellow
             if (avg1 > 130 && avg1 < 200) {
-                return "BLUE" + " " + avg1;
+                opMode.telemetry.addLine("BLUE" + " Location 1 " + avg1);
+                return pLocation.LOCATION1;
             } else if (avg1 > 100 && avg1 < 130) {
-                return "GREEN" + " " + avg1;
+                opMode.telemetry.addLine("GREEN" + " Location 2 " + avg1);
+                return pLocation.LOCATION2;
             } else {
-                return "YELLOW" + " " + avg1;
+                opMode.telemetry.addLine("YELLOW" + " Location 3 " + avg1);
+                return pLocation.LOCATION3;
             }
         }
     }
