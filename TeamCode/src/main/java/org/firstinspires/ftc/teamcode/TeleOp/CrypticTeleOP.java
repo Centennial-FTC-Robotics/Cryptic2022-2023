@@ -68,7 +68,7 @@ public class CrypticTeleOP extends LinearOpMode {
                 intakeLeft = 0.95;
                 intakeRight = 0.05;
                 horiSlide = 0.04;
-            } else if (intakeSequence2.time() > 1.75 && intakeSequence2.time() < 1.9 && activateSequence2 && !setUp) {
+            } else if (intakeSequence2.time() > 1.85 && intakeSequence2.time() < 2.0 && activateSequence2 && !setUp) {
                 claw = 0.55;
             } else if (intakeSequence2.time() > 2.1 && intakeSequence2.time() < 2.3 && activateSequence2 && !setUp) {
                 intakeLeft = 0.05;
