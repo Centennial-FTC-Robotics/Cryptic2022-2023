@@ -140,9 +140,9 @@ public class Vision implements Subsystem {
         final Scalar BLUE = new Scalar(0, 0, 255);
         final Scalar GREEN = new Scalar(0, 255, 0);
 
-        final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(150,120);
+        final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(150,100);
         final int REGION_WIDTH = 30;
-        final int REGION_HEIGHT = 30;
+        final int REGION_HEIGHT = 50;
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
                 REGION1_TOPLEFT_ANCHOR_POINT.y);

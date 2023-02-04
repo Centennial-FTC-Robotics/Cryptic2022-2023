@@ -18,7 +18,6 @@ public class TeleOpForOneDriver extends LinearOpMode {
         robot.intake.leftPivotServo.setPosition(0.95);
         robot.intake.rightPivotServo.setPosition(0.05);
         robot.intake.clawServo.setPosition(0.77);
-        robot.intake.horiServo.setPosition(0.05);
         waitForStart();
         boolean intakeTog = true;
         if (isStopRequested()) return;
@@ -139,10 +138,10 @@ public class TeleOpForOneDriver extends LinearOpMode {
                 timerReached = true;
             }
 
-            telemetry.addData("horislide value", robot.intake.horiServo.getPosition());
+            //telemetry.addData("horislide value", robot.intake.horiServo.getPosition());
             telemetry.addData("timer value", mytimer.time());
 
-            robot.intake.horiServo.setPosition(horiSlide);
+            //robot.intake.horiServo.setPosition(horiSlide);
 
             telemetry.update();
         }

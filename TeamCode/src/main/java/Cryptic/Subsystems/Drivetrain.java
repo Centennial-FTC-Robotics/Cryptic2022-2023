@@ -87,20 +87,78 @@ public class Drivetrain implements Subsystem {
     }
 
     public void move(double power, double inches, moveType MoveType, double time, LinearOpMode opMode) {
-        ElapsedTime timey = new ElapsedTime();
         double EncoderCounts = INtoEC(inches);
         TargetPos(EncoderCounts, MoveType);
         leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ElapsedTime timey = new ElapsedTime();
+        double smoothness = power / 2;
         while (timey.time() < time) {
+            /*
             leftFront.setPower(power);
             rightFront.setPower(power);
             leftBack.setPower(power);
             rightBack.setPower(power);
-            Intake.horiServo.setPosition(0);
+            */
+
+            leftFront.setPower(power - smoothness);
+            rightFront.setPower(power - smoothness);
+            leftBack.setPower(power - smoothness);
+            rightBack.setPower(power - smoothness);
+            if (timey.time() > 0 && timey.time() < 1.0 && smoothness >= 0) {
+                smoothness -= 0.003;
+            }
+            Intake.horiMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            if (!Intake.touch.isPressed()) {
+                Intake.horiMotor.setPower(-0.3);
+            } else {
+                Intake.horiMotor.setPower(0);
+            }
         }
+        Intake.horiMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+        leftBack.setPower(0);
+        rightBack.setPower(0);
+    }
+
+    //overloaded method
+    public void move(double power, double inches, moveType MoveType, double time, LinearOpMode opMode, int sexism) {
+        double EncoderCounts = INtoEC(inches);
+        TargetPos(EncoderCounts, MoveType);
+        leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ElapsedTime timey = new ElapsedTime();
+        double smoothness = power / 2;
+        while (timey.time() < time) {
+            /*
+            leftFront.setPower(power);
+            rightFront.setPower(power);
+            leftBack.setPower(power);
+            rightBack.setPower(power);
+            */
+
+            leftFront.setPower(power - smoothness);
+            rightFront.setPower(power - smoothness);
+            leftBack.setPower(power - smoothness);
+            rightBack.setPower(power - smoothness);
+            if (timey.time() > 0 && timey.time() < 1.0 && smoothness >= 0) {
+                smoothness -= 0.003;
+            }
+            Intake.horiMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            if (timey.time() > 0 && timey.time() < 1.5) {
+                Intake.horiMotor.setPower(0.5);
+            }else if (timey.time() > 2 && !Intake.touch.isPressed()) {
+                Intake.horiMotor.setPower(-0.5);
+            } else {
+                Intake.horiMotor.setPower(0);
+            }
+        }
+        Intake.horiMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftFront.setPower(0);
         rightFront.setPower(0);
         leftBack.setPower(0);
@@ -114,13 +172,30 @@ public class Drivetrain implements Subsystem {
         rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //double smoothness = power / 1.5;
         while (timey.time() < time) {
             leftFront.setPower(power);
             rightFront.setPower(power);
             leftBack.setPower(power);
             rightBack.setPower(power);
-            Intake.horiServo.setPosition(0);
+            /*
+            leftFront.setPower(power - smoothness);
+            rightFront.setPower(power - smoothness);
+            leftBack.setPower(power - smoothness);
+            rightBack.setPower(power - smoothness);
+            if (timey.time() > 0 && timey.time() < 1.0 && smoothness >= 0) {
+                smoothness -= 0.003;
+            }
+
+             */
+            Intake.horiMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            if (!Intake.touch.isPressed()) {
+                Intake.horiMotor.setPower(-0.3);
+            } else {
+                Intake.horiMotor.setPower(0);
+            }
         }
+        Intake.horiMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftFront.setPower(0);
         rightFront.setPower(0);
         leftBack.setPower(0);
