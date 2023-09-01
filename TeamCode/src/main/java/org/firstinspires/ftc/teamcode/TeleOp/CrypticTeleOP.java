@@ -19,7 +19,7 @@ public class CrypticTeleOP extends LinearOpMode {
         OurRobot robot = new OurRobot();
         robot.initialize(this);
         //inital servo positions
-        robot.intake.leftPivotServo.setPosition(0.95);
+        robot.intake.leftPivotServo.setPosition(0.63);
         robot.intake.rightPivotServo.setPosition(0.05);
         robot.intake.clawServo.setPosition(0.77);
         //robot.intake.horiMotor.setTargetPosition(1);
@@ -29,7 +29,7 @@ public class CrypticTeleOP extends LinearOpMode {
         boolean intakeArmLock = false;
         double slideValue = 0;
         double intakeRight = 0.05;
-        double intakeLeft = 0.95;
+        double intakeLeft = 0.63;
         double claw = 0.77;
         boolean clawTog = true;
         boolean clawLock = false;
@@ -53,7 +53,7 @@ public class CrypticTeleOP extends LinearOpMode {
                 activateSequence2 = true;
                 if (setUp) {
                     intakeLeft = 0.05;
-                    intakeRight = 0.95;
+                    intakeRight = 0.65;
                     claw = 0.65;
                     horiSlide = 40;
                 } else {
@@ -63,34 +63,34 @@ public class CrypticTeleOP extends LinearOpMode {
                 }
             }
             //setup
-            if (intakeSequence2.time() > 0.2 && intakeSequence2.time() < 0.6 && setUp && activateSequence2) {
+            if (intakeSequence2.time() > 0.13 && intakeSequence2.time() < 0.65 && setUp && activateSequence2) {
                 horiSlide = 400;
-                robot.intake.horiMotor.setPower(0.5);
-            } else if (intakeSequence2.time() > 0.6 && intakeSequence2.time() < 0.7 && setUp && activateSequence2) {
+                robot.intake.horiMotor.setPower(0.6);
+            } else if (intakeSequence2.time() > 0.65 && intakeSequence2.time() < 0.8 && setUp && activateSequence2) {
                 robot.intake.horiMotor.setPower(0);
                 setUp = false;
                 activateSequence2 = false;
             //cycle
-            } else if(intakeSequence2.time() > 0.1 && intakeSequence2.time() < 0.3 && activateSequence2 && !setUp) {
+            } else if(intakeSequence2.time() > 0.2 && intakeSequence2.time() < 0.3 && activateSequence2 && !setUp) {
                 robot.intake.horiMotor.setPower(0);
                 claw = 0.77;
-            } else if(intakeSequence2.time() > 0.3 && intakeSequence2.time() < 0.4 && activateSequence2 && !setUp) {
-                intakeLeft = 0.95;
+            } else if(intakeSequence2.time() > 0.5 && intakeSequence2.time() < 0.6 && activateSequence2 && !setUp) {
+                intakeLeft = 0.63;
                 intakeRight = 0.05;
                 horiSlide = 1;
                 //automatic retraction
-            } else if (intakeSequence2.time() > 0.4 && robot.intake.touch.isPressed() && activateSequence2 && !setUp) {
+            } else if (intakeSequence2.time() > 0.6&& intakeSequence2.time() < 1.6 && robot.intake.touch.isPressed() && activateSequence2 && !setUp) {
                 claw = 0.5;
-            } else if (intakeSequence2.time() > 1.4 && intakeSequence2.time() < 1.6 && activateSequence2 && !setUp) {
+            } else if (intakeSequence2.time() > 1.6 && intakeSequence2.time() < 1.9 && activateSequence2 && !setUp) {
                 intakeLeft = 0.05;
-                intakeRight = 0.95;
+                intakeRight = 0.63;
                 claw = 0.65;
 
-            } else if (intakeSequence2.time() > 1.6 && intakeSequence2.time() < 2.1 && activateSequence2 && !setUp) {
+            } else if (intakeSequence2.time() > 1.9 && intakeSequence2.time() < 2.4 && activateSequence2 && !setUp) {
                 horiSlide = 400;
-                robot.intake.horiMotor.setPower(0.5);
+                robot.intake.horiMotor.setPower(0.6);
                 outtakeSequence = true;
-            } else if (intakeSequence2.time() > 2.1 && intakeSequence2.time() < 2.2 && activateSequence2 && !setUp) {
+            } else if (intakeSequence2.time() > 2.4 && intakeSequence2.time() < 2.5 && activateSequence2 && !setUp) {
                 robot.intake.horiMotor.setPower(0);
                 activateSequence2 = false;
             }
@@ -100,11 +100,20 @@ public class CrypticTeleOP extends LinearOpMode {
                 outtakeSequenceTimer.reset();
                 outtakeSequenceLock = false;
             }
-            if (outtakeSequence && outtakeSequenceTimer.time() < 1.1) {
-                slideValue = 0.8;
+
+            if (outtakeSequence && outtakeSequenceTimer.time() > 0.35 && outtakeSequenceTimer.time() < 1.1) {
                 robot.outtake.outtakeServo.setPosition(1);
-            } else if (outtakeSequence && outtakeSequenceTimer.time() > 1.1 && robot.outtake.outtakeMotor.getCurrentPosition() > initalSlidePos) {
-                slideValue = -0.8;
+            }
+            if (outtakeSequence && outtakeSequenceTimer.time() < 1) {
+                robot.outtake.outtakeMotor.setTargetPosition(2200);
+                robot.outtake.outtakeMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.outtake.outtakeMotor.setPower(0.7);
+            } else if (outtakeSequence && outtakeSequenceTimer.time() > 0.9 && outtakeSequenceTimer.time() < 1.2) {
+                robot.outtake.outtakeMotor.setPower(0);
+            } else if (outtakeSequence && outtakeSequenceTimer.time() > 1.2 && robot.outtake.outtakeMotor.getCurrentPosition() > initalSlidePos + 30) {
+                robot.outtake.outtakeMotor.setTargetPosition(5);
+                robot.outtake.outtakeMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.outtake.outtakeMotor.setPower(-0.7);
                 robot.outtake.outtakeServo.setPosition(0.1);
             } else if (outtakeSequence) {
                 slideValue = 0;
@@ -160,7 +169,7 @@ public class CrypticTeleOP extends LinearOpMode {
 
             //slides
             if(gamepad1.dpad_up)
-                slideValue = 0.5;
+                slideValue = 0.7;
             else if(gamepad1.dpad_down && robot.outtake.outtakeMotor.getCurrentPosition() > initalSlidePos) {
                 slideValue = -0.5;
             } else if (outtakeSequenceLock){
@@ -168,7 +177,10 @@ public class CrypticTeleOP extends LinearOpMode {
             }
             telemetry.addData("initial count",initalSlidePos);
             telemetry.addData("outtake encoder count",robot.outtake.outtakeMotor.getCurrentPosition());
-            robot.outtake.outtakeMotor.setPower(slideValue);
+            if (outtakeSequenceLock) {
+                robot.outtake.outtakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.outtake.outtakeMotor.setPower(slideValue);
+            }
 
             //intake pivot
             if (gamepad2.a){
@@ -180,10 +192,10 @@ public class CrypticTeleOP extends LinearOpMode {
                 intakeArmLock = false;
                 if (intakeTog) {
                     intakeLeft = 0.05;
-                    intakeRight = 0.95;
+                    intakeRight = 0.63;
                     intakeTog = false;
                 } else {
-                    intakeLeft = 0.95;
+                    intakeLeft = 0.63;
                     intakeRight = 0.05;
                     intakeTog = true;
                 }
@@ -214,21 +226,24 @@ public class CrypticTeleOP extends LinearOpMode {
 
             //&& horiSlide <= 1 && horiSlide >= 0
 
-
+            if (!activateSequence2) {
+                robot.intake.horiMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.intake.horiMotor.setPower(-gamepad2.left_stick_y * 0.8);
+            }
             if(gamepad2.left_stick_y < -0.1 && horiSlide > 0) {
-                robot.intake.horiMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                robot.intake.horiMotor.setPower(-gamepad2.left_stick_y);
-                horiSlide = robot.intake.horiMotor.getCurrentPosition();
+//                robot.intake.horiMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//                robot.intake.horiMotor.setPower(-gamepad2.left_stick_y);
+//                horiSlide = robot.intake.horiMotor.getCurrentPosition();
             } else if(gamepad2.left_stick_y > 0.1 && horiSlide < 550) {
-                robot.intake.horiMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                robot.intake.horiMotor.setPower(-gamepad2.left_stick_y);
-                horiSlide = robot.intake.horiMotor.getCurrentPosition();
+//                robot.intake.horiMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//                robot.intake.horiMotor.setPower(-gamepad2.left_stick_y);
+//                horiSlide = robot.intake.horiMotor.getCurrentPosition();
             } else {
                 //robot.intake.horiMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 if (horiSlide < 2) {
                     if (!robot.intake.touch.isPressed()) {
                         robot.intake.horiMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                        robot.intake.horiMotor.setPower(-0.7);
+                        robot.intake.horiMotor.setPower(-0.9);
                     } else {
                         robot.intake.horiMotor.setPower(0);
                         horiSlide = 3;

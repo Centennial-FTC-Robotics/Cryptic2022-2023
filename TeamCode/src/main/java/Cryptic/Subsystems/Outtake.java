@@ -41,4 +41,22 @@ public class Outtake implements Subsystem {
             outtakeMotor.setPower(-0.6);
         }
     }
+
+    public void score(ElapsedTime timey, int negus) {
+        if (0.2 < timey.time() && timey.time() < 1.6) {
+            outtakeMotor.setTargetPosition(1700);
+            outtakeMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            outtakeMotor.setPower(0.8);
+        }
+        if (0.8 < timey.time() && timey.time() < 1.8) {
+            outtakeServo.setPosition(1);
+        }
+        if (1.8 < timey.time() && timey.time() < 2.8) {
+            outtakeServo.setPosition(0.1);
+        }
+        if (2.0 < timey.time() && timey.time() < 3.0) {
+            outtakeMotor.setTargetPosition(10);
+            outtakeMotor.setPower(-0.6);
+        }
+    }
 }

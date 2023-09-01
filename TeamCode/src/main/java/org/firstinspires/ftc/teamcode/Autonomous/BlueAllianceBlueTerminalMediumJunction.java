@@ -13,7 +13,7 @@ import Cryptic.Subsystems.Vision;
 import Cryptic.Tests.CycleTest;
 
 @Autonomous
-public class BlueAllianceBlueTerminal extends LinearOpMode {
+public class BlueAllianceBlueTerminalMediumJunction extends LinearOpMode {
 
     double tileLength = 24.5;
     public boolean pressed = false;
@@ -45,9 +45,9 @@ public class BlueAllianceBlueTerminal extends LinearOpMode {
         robot.dt.move(0.45, tileLength + 6, Drivetrain.moveType.DRIVE, 1.5, this);
         */
         robot.dt.move(0.7, 3, Drivetrain.moveType.DRIVE, 0.4, this);
-        robot.dt.move(0.7, -(tileLength * 2) - 20.1, Drivetrain.moveType.STRAFE, 2.4, this);
-        robot.dt.turn(0.7, 12.8, 0.5, this);
-        robot.dt.move(0.7, -3.2, Drivetrain.moveType.DRIVE, 0.3, this);
+        robot.dt.move(0.7, -(tileLength * 1) - 24.5, Drivetrain.moveType.STRAFE, 2.4, this);
+        robot.dt.turn(0.7, -17, 0.5, this);
+        robot.dt.move(0.7, -2.2, Drivetrain.moveType.DRIVE, 0.3, this);
         for (int i = 0; i < 5; i++) {
             cycle(i);
         }
@@ -73,9 +73,9 @@ public class BlueAllianceBlueTerminal extends LinearOpMode {
             }
         }
 
-        robot.dt.move(0.7, 3, Drivetrain.moveType.DRIVE, 0.3, this);
-        robot.dt.turn(0.7, 75.3, 0.8, this);
-        robot.dt.move(0.7, tileLength + 6.2, Drivetrain.moveType.DRIVE, 1, this);
+        robot.dt.move(0.7, 2.3, Drivetrain.moveType.DRIVE, 0.3, this);
+        robot.dt.turn(0.7, 105, 0.8, this);
+        robot.dt.move(0.7, 11.2, Drivetrain.moveType.DRIVE, 1, this);
         if (parkLocation == Vision.pLocation.LOCATION1) {
 
             robot.dt.move(0.45, tileLength + 2.5, Drivetrain.moveType.STRAFE, 1.5, this);
@@ -93,15 +93,14 @@ public class BlueAllianceBlueTerminal extends LinearOpMode {
     }
     public void cycle (int increment){
         ElapsedTime timey = new ElapsedTime();
-
         while (timey.time() < 4.0) {
-            OurRobot.outtake.score(timey);
+            OurRobot.outtake.score(timey, 420);
             if (timey.time() > 0 && timey.time() < 2.0) {
                 OurRobot.intake.clawServo.setPosition(0.55);
                 OurRobot.intake.extendIntake(increment);
             } if (timey.time() < 0.8) {
                 OurRobot.intake.horiMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                OurRobot.intake.horiMotor.setPower(0.95);
+                OurRobot.intake.horiMotor.setPower(0.9);
             } else if (timey.time() < 2.0) {
                 OurRobot.intake.horiMotor.setPower(0);
             }

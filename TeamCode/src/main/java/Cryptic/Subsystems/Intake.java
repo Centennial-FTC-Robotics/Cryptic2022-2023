@@ -29,7 +29,7 @@ public class Intake  implements Subsystem{
         horiMotor = opMode.hardwareMap.get(DcMotor.class,"hori");
         horiMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         horiMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        horiMotor.setDirection(DcMotor.Direction.REVERSE);
+        horiMotor.setDirection(DcMotor.Direction.FORWARD);
         horiMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public enum intakeDo {
@@ -38,16 +38,16 @@ public class Intake  implements Subsystem{
     }
     public void extendIntake(int increment) {
         //if (timey.time() < 4.0) {
-        leftPivotServo.setPosition(0.30 - (increment * 0.06));
-        rightPivotServo.setPosition(0.70 + (increment * 0.06));
+        leftPivotServo.setPosition(0.2 - (increment * 0.04));
+        rightPivotServo.setPosition(0.47 + (increment * 0.04));
         //clawServo.setPosition(0.55);
         //}
     }
     public void retractIntake() {
         clawServo.setPosition(0.77);
         //horiServo.setPosition(0.05);
-        leftPivotServo.setPosition(0.95);
-        rightPivotServo.setPosition(0.00);
+        leftPivotServo.setPosition(0.63);
+        rightPivotServo.setPosition(0.05);
         //clawServo.setPosition(0.55);
     }
 }
